@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
@@ -15,19 +15,19 @@ const userSchema = new mongoose.Schema({
       min: [3, "Last name must be at least 3 characters long"],
       max: 50,
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      select: false, // will not return password in response
-    },
-    socketId: {
-      type: String,
-    },
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false, // will not return password in response
+  },
+  socketId: {
+    type: String,
   },
 });
 
@@ -43,6 +43,7 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
 userSchema.methods.generateToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
@@ -51,4 +52,4 @@ userSchema.methods.generateToken = function () {
 
 const User = mongoose.model("User", userSchema);
 
-export default User;
+export { User };
