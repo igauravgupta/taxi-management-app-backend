@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { signup } from "../controllers/user.controller.js";
+import {
+  signup,
+  login,
+  getUserProfile,
+} from "../controllers/user.controller.js";
+import auth from "../middlewares/auth.middleware.js";
 import { body } from "express-validator";
 
 const router = Router();
@@ -17,5 +22,12 @@ router.post(
   ],
   signup
 );
+router.get(
+  "/login",
+  [body("email").isEmail(), body("password").isLength({ min: 5 })],
+  login
+);
+
+router.get("/getUserProfile", auth, getUserProfile);
 
 export default router;
