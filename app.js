@@ -25,6 +25,9 @@ connectDB()
 
 // routes
 import userRoutes from "./src/routes/user.routes.js";
-app.use(userRoutes);
+import captionRoutes from "./src/routes/caption.routes.js";
+
+app.use("/api/user", userRoutes);
+app.use("/api/caption", captionRoutes);
 
 export default app;
