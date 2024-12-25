@@ -41,13 +41,14 @@ const login = asyncHandler(async (req, res) => {
 
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = req.user;
-  return res.status(200).json({ user }).cookie("token", token);
+  return res.status(200).json({ user });
 });
 
 const logout = asyncHandler(async (req, res) => {
-  res.clearCookie("token");
+ 
   const token = req.cookies.token || req.headers.authorization.split(" ")[1];
   await BlackListToken.create({ token });
+  res.clearCookie("token");
   return res.status(200).json({ message: "Logout successful" });
 });
 
