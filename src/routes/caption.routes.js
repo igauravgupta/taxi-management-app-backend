@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { body } from "express-validator";
+import {createCaption,captionLogin,getCaptionProfile,logoutCaption} from "../controllers/caption.controller.js"
+import { authCaption as auth } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -21,5 +23,13 @@ router.post(
   ],
   createCaption
 );
+
+router.post("/login",[
+  body("email").notEmpty().withMessage("Email is required"),
+  body("password").notEmpty().withMessage("Password is required"),
+],captionLogin)
+
+router.get("/profile",auth,getCaptionProfile);
+router.get("/logout",auth,logoutCaption);
 
 export default router;
