@@ -1,11 +1,11 @@
-import socketIo from 'socket.io';
-import userModel from './models/user.model.js';
-import captainModel from './models/captain.model.js';
+import {Server as socketIo} from 'socket.io';
+import {User} from "./src/models/user.model.js";
+import {Caption} from './src/models/caption.model.js';
 
 let io;
 
 const initializeSocket = (server) => {
-    io = socketIo(server, {
+    io = new socketIo(server, {
         cors: {
             origin: '*',
             methods: ['GET', 'POST'],
@@ -19,7 +19,7 @@ const initializeSocket = (server) => {
             const { userId, userType } = data;
 
             if (userType === 'user') {
-                await userModel.findByIdAndUpdate(userId, { socketId: socket.id });
+                await User.findByIdAndUpdate(userId, { socketId: socket.id });
             } else if (userType === 'captain') {
                 await captainModel.findByIdAndUpdate(userId, { socketId: socket.id });
             }
@@ -32,7 +32,7 @@ const initializeSocket = (server) => {
                 return socket.emit('error', { message: 'Invalid location data' });
             }
 
-            await captainModel.findByIdAndUpdate(userId, {
+            await Caption.findByIdAndUpdate(userId, {
                 location: {
                     ltd: location.ltd,
                     lng: location.lng,

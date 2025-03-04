@@ -1,10 +1,21 @@
 import { validationResult } from 'express-validator';
-import rideService from '../services/ride.service';
-import mapService from '../services/maps.service';
-import { sendMessageToSocketId } from '../socket';
-import rideModel from '../models/ride.model.js';
+import {
+    createRide,
+    confirmRide,
+    startRide,
+    endRide,
+    getFare,
+getOtp
+} from "../services/ride.service.js";
+import {
+    getAddressCoordinate,
+    getDistanceTime,
+    getAutoCompleteSuggestions,
+    getCaptainsInTheRadius} from '../services/maps.service.js';
+import { sendMessageToSocketId } from "../../socket.js";
+import {rideModel} from '../models/ride.model.js';
 
-const createRide = async (req, res) => {
+const CreateRide = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -45,7 +56,7 @@ const createRide = async (req, res) => {
     }
 };
 
-const getFare = async (req, res) => {
+const GetFare = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -61,7 +72,7 @@ const getFare = async (req, res) => {
     }
 };
 
-const confirmRide = async (req, res) => {
+const ConfirmRide = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -84,7 +95,7 @@ const confirmRide = async (req, res) => {
     }
 };
 
-const startRide = async (req, res) => {
+const StartRide = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -108,7 +119,7 @@ const startRide = async (req, res) => {
     }
 };
 
-const endRide = async (req, res) => {
+const EndRide = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -130,4 +141,4 @@ const endRide = async (req, res) => {
     }
 };
 
-export { createRide, getFare, confirmRide, startRide, endRide };
+export { CreateRide, GetFare, ConfirmRide, StartRide, EndRide };

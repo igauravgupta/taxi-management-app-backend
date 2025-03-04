@@ -87,4 +87,4 @@ captionSchema.methods.generateToken = function () {
 
 const Caption = mongoose.model("Caption", captionSchema);
 
-export default { Caption };
+export { Caption };

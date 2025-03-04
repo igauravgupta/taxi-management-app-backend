@@ -1,14 +1,19 @@
-import rideModel from "../models/ride.model.js";
-import mapService from "./maps.service.js";
+import {rideModel} from "../models/ride.model.js";
+import {
+    getAddressCoordinate,
+    getDistanceTime,
+    getAutoCompleteSuggestions,
+    getCaptainsInTheRadius} from "./maps.service.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+
 
 const getFare = async (pickup, destination) => {
     if (!pickup || !destination) {
         throw new Error("Pickup and destination are required");
     }
 
-    const distanceTime = await mapService.getDistanceTime(pickup, destination);
+    const distanceTime = await getDistanceTime(pickup, destination);
 
     const baseFare = {
         auto: 30,
@@ -48,6 +53,7 @@ const getFare = async (pickup, destination) => {
 
     return fare;
 };
+
 
 const generateOtp = (num) => {
     return crypto.randomInt(Math.pow(10, num - 1), Math.pow(10, num)).toString();

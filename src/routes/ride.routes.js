@@ -1,6 +1,6 @@
 import {Router} from "express";
 import { body, query } from "express-validator";
-import {createRide, getFare, confirmRide, startRide, endRide} from "../controllers/ride.controller.js";
+import { CreateRide, GetFare, ConfirmRide, StartRide, EndRide } from "../controllers/ride.controller.js";
 import {authUser, authCaption}from "../middlewares/auth.middleware.js";
 
 const router = Router();
@@ -11,7 +11,7 @@ router.post(
     body("pickup").isString().isLength({ min: 3 }).withMessage("Invalid pickup address"),
     body("destination").isString().isLength({ min: 3 }).withMessage("Invalid destination address"),
     body("vehicleType").isString().isIn(["auto", "car", "moto"]).withMessage("Invalid vehicle type"),
-    createRide
+    CreateRide
 );
 
 router.get(
@@ -19,29 +19,29 @@ router.get(
     authUser,
     query("pickup").isString().isLength({ min: 3 }).withMessage("Invalid pickup address"),
     query("destination").isString().isLength({ min: 3 }).withMessage("Invalid destination address"),
-    getFare
+    GetFare
 );
 
 router.post(
     "/confirm",
     authUser,
     body("rideId").isMongoId().withMessage("Invalid ride id"),
-    confirmRide
+    ConfirmRide
 );
 
 router.get(
     "/start-ride",
-    authCaptain,
+    authCaption,
     query("rideId").isMongoId().withMessage("Invalid ride id"),
     query("otp").isString().isLength({ min: 6, max: 6 }).withMessage("Invalid OTP"),
-    startRide
+    StartRide
 );
 
 router.post(
     "/end-ride",
-    authCaptain,
+    authCaption,
     body("rideId").isMongoId().withMessage("Invalid ride id"),
-    endRide
+    EndRide
 );
 
 export default router;

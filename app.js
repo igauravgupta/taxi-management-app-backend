@@ -15,23 +15,17 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 //connect to database
-connectDB()
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+connectDB();
 
 // routes
 import userRoutes from "./src/routes/user.routes.js";
 import captionRoutes from "./src/routes/caption.routes.js";
 import rideRoutes from "./src/routes/ride.routes.js";
-import captionRoutes from "./src/routes/caption.routes.js";
+import mapRoutes from "./src/routes/map.routes.js";
 
 app.use("/api/user", userRoutes);
-app.use("/api/caption", captionRoutes);
 app.use("/api/ride", rideRoutes);
 app.use("/api/caption", captionRoutes);
+app.use("/api/map", mapRoutes);
 
 export default app;

@@ -67,4 +67,4 @@ const logoutCaption = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Logout successful" });
 });
 
-export default { createCaption ,captionLogin,getCaptionProfile,logoutCaption};
+export  { createCaption ,captionLogin,getCaptionProfile,logoutCaption};

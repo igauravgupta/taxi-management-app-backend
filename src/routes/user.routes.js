@@ -5,7 +5,7 @@ import {
   getUserProfile,
   logout,
 } from "../controllers/user.controller.js";
-import auth from "../middlewares/auth.middleware.js";
+import {authCaption as auth} from "../middlewares/auth.middleware.js";
 import { body } from "express-validator";
 
 const router = Router();

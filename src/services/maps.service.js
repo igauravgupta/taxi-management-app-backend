@@ -1,5 +1,5 @@
 import axios from "axios";
-import captainModel from "../models/captain.model.js";
+import {Caption} from "../models/caption.model.js";
 
 const getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API;

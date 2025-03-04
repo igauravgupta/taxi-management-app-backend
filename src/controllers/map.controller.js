@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import mapService from '../services/maps.service';
+import { getAddressCoordinate, getDistanceTime, getAutoCompleteSuggestions } from '../services/maps.service.js';
 
 const getCoordinates = async (req, res, next) => {
     const errors = validationResult(req);
@@ -10,14 +10,14 @@ const getCoordinates = async (req, res, next) => {
     const { address } = req.query;
 
     try {
-        const coordinates = await mapService.getAddressCoordinate(address);
+        const coordinates = await getAddressCoordinate(address);
         res.status(200).json(coordinates);
     } catch (error) {
         res.status(404).json({ message: 'Coordinates not found' });
     }
 };
 
-const getDistanceTime = async (req, res, next) => {
+const fetchDistanceTime = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -26,7 +26,7 @@ const getDistanceTime = async (req, res, next) => {
     const { origin, destination } = req.query;
 
     try {
-        const distanceTime = await mapService.getDistanceTime(origin, destination);
+        const distanceTime = await getDistanceTime(origin, destination);
         res.status(200).json(distanceTime);
     } catch (err) {
         console.error(err);
@@ -34,7 +34,7 @@ const getDistanceTime = async (req, res, next) => {
     }
 };
 
-const getAutoCompleteSuggestions = async (req, res, next) => {
+const fetchAutoCompleteSuggestions = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -43,7 +43,7 @@ const getAutoCompleteSuggestions = async (req, res, next) => {
     const { input } = req.query;
 
     try {
-        const suggestions = await mapService.getAutoCompleteSuggestions(input);
+        const suggestions = await getAutoCompleteSuggestions(input);
         res.status(200).json(suggestions);
     } catch (err) {
         console.error(err);
@@ -51,4 +51,4 @@ const getAutoCompleteSuggestions = async (req, res, next) => {
     }
 };
 
-export { getCoordinates, getDistanceTime, getAutoCompleteSuggestions };
+export { getCoordinates, fetchDistanceTime, fetchAutoCompleteSuggestions };
