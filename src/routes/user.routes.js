@@ -5,7 +5,7 @@ import {
   getUserProfile,
   logout,
 } from "../controllers/user.controller.js";
-import {authCaption as auth} from "../middlewares/auth.middleware.js";
+import {authUser as auth} from "../middlewares/auth.middleware.js";
 import { body } from "express-validator";
 
 const router = Router();
@@ -23,7 +23,7 @@ router.post(
   ],
   signup
 );
-router.get(
+router.post(
   "/login",
   [body("email").isEmail(), body("password").isLength({ min: 5 })],
   login

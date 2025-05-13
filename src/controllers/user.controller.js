@@ -29,14 +29,19 @@ const login = asyncHandler(async (req, res) => {
     return res.status(401).json({ message: "Invalid email or password" });
   }
   const isMatch = await user.matchPassword(password);
+
   if (!isMatch) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
   const token = await user.generateToken();
-  return res
-    .status(200)
-    .json({ message: "Login successful", token, user })
-    .cookie("token", token);
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true, // use only if you're using HTTPS
+  sameSite: "Strict" // adjust as needed
+});
+
+return res.status(200).json({ message: "Login successful", token, user });
+
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
